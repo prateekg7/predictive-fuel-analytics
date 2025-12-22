@@ -7,7 +7,6 @@ This repository contains the solution for the Shell.ai Hackathon 2025, focusing 
 - model.py: The main script containing the Stacking Regressor model (LightGBM, CatBoost, XGBoost with RidgeCV meta-learner).
 - corr_heatmap.py: Utility script for generating correlation heatmaps of the data/predictions.
 - final.csv: The generated output file matches the target blend properties with high accuracy.
-- compare_outputs.py: Script to verify the similarity between generated outputs and expected results.
 
 ## Setup & Usage
 
