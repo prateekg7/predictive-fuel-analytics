@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Watt-The-Hack · Try It Yourself</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="css/shared.css">
+  <link rel="stylesheet" href="css/predictions.css">
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="logo">
+    Watt-The-Hack
+    <span>PREDICTIVE FUEL BLEND ANALYTICS · SHELL.AI 2025</span>
+  </div>
+  <nav class="nav-tabs">
+    <a class="nav-tab" href="index.html">Overview</a>
+    <a class="nav-tab active" href="predictions.html">Try It Yourself</a>
+    <a class="nav-tab" href="residuals.html">Residuals</a>
+    <a class="nav-tab" href="model.html">Model</a>
+  </nav>
+  <div class="header-meta">
+    <span><span class="status-dot"></span>MODEL ACTIVE</span>
+    <span>N=500 SAMPLES</span>
+    <span>10 TARGETS</span>
+  </div>
+</header>
+
+<main class="main">
+
+  <div class="section-title">TRY IT YOURSELF</div>
+  <div class="section-sub">Mix 5 anonymous components by adjusting their volume fractions · The model predicts all 10 blend properties</div>
+
+  <div class="anon-banner fade-in" style="margin-bottom:24px;">
+    <div class="anon-icon">🔒</div>
+    <div>
+      <div class="anon-title">Component &amp; Property Names Kept Anonymous by Shell</div>
+      <div class="anon-body"><strong>C1–C5</strong> are the 5 fuel blend components — in reality these could be petrol, kerosene, ethanol, naphtha, bio-diesel, etc. <strong>BP1–BP10</strong> are the predicted blend properties — typically things like viscosity, flash point, octane number, aromatic content, combustibility, density, and so on.</div>
+    </div>
+  </div>
+
+  <div class="tiy-layout">
+    <!-- LEFT: FRACTION SLIDERS -->
+    <div class="tiy-inputs">
+      <div class="card fade-in">
+        <div class="card-label" style="margin-bottom:6px;">
+          <span>Blend Composition · Volume Fractions</span>
+          <span id="frac-sum-badge" class="kpi-badge badge-yellow">Sum: 0.00</span>
+        </div>
+        <div style="font-size:11px;color:var(--muted);margin-bottom:18px;">Adjust how much of each component goes into the blend. Fractions must sum to 1.0.</div>
+
+        <div class="fraction-sliders" id="fraction-sliders"></div>
+
+        <div style="margin-top:16px;padding:10px;background:var(--bg);border:1px solid var(--border);display:flex;align-items:center;gap:10px;">
+          <div style="flex:1;height:6px;background:var(--border);border-radius:3px;overflow:hidden;">
+            <div id="frac-bar" style="height:100%;width:0%;background:var(--accent);border-radius:3px;transition:width 0.3s;"></div>
+          </div>
+          <span id="frac-pct" style="font-family:var(--mono);font-size:11px;color:var(--muted);white-space:nowrap;">0 / 100%</span>
+        </div>
+
+        <button class="predict-btn" style="margin-top:16px;" onclick="runPrediction()" id="predict-btn">
+          <span id="predict-btn-text">▶ PREDICT BLEND PROPERTIES</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- RIGHT: RESULTS -->
+    <div class="tiy-results" id="tiy-results">
+      <div class="results-placeholder" id="results-placeholder">
+        <div class="placeholder-icon">⚗</div>
+        <div class="placeholder-title">AWAITING INPUT</div>
+        <div class="placeholder-sub">Adjust the component fractions on the left until they sum to 100%, then hit Predict to see all 10 blend properties.</div>
+      </div>
+
+      <div id="results-content" style="display:none;">
+        <div class="card fade-in" style="margin-bottom:2px;">
+          <div class="card-label" style="margin-bottom:16px;">
+            <span>Predicted Blend Properties</span>
+            <span style="color:var(--accent3);font-family:var(--mono);font-size:10px;" id="res-confidence">● HIGH CONFIDENCE</span>
+          </div>
+          <div id="prop-results-grid"></div>
+        </div>
+        <div class="card fade-in">
+          <div class="card-label" style="margin-bottom:16px;">Property Profile · Radar</div>
+          <div class="chart-wrap">
+            <canvas id="tiyRadarChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<script src="js/shared.js"></script>
+<script src="js/predictions.js"></script>
+</body>
+</html>

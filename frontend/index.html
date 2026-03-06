@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Watt-The-Hack · Overview</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="css/shared.css">
+  <link rel="stylesheet" href="css/overview.css">
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="logo">
+    Watt-The-Hack
+    <span>PREDICTIVE FUEL BLEND ANALYTICS · SHELL.AI 2025</span>
+  </div>
+  <nav class="nav-tabs">
+    <a class="nav-tab active" href="index.html">Overview</a>
+    <a class="nav-tab" href="predictions.html">Try It Yourself</a>
+    <a class="nav-tab" href="residuals.html">Residuals</a>
+    <a class="nav-tab" href="model.html">Model</a>
+  </nav>
+  <div class="header-meta">
+    <span><span class="status-dot"></span>MODEL ACTIVE</span>
+    <span>N=500 SAMPLES</span>
+    <span>10 TARGETS</span>
+  </div>
+</header>
+
+<main class="main">
+
+  <!-- INTRO BAR -->
+  <div class="intro-bar fade-in">
+    <span class="intro-tag">Shell.ai Hackathon 2025</span>
+    <p class="intro-text">Stacking ensemble (LightGBM + CatBoost + XGBoost → RidgeCV) predicting 10 blend properties from 5 component fractions and properties. Average R² across all targets: <strong style="color:var(--accent3)">99.2%</strong>.</p>
+  </div>
+
+  <div class="anon-banner fade-in">
+    <div class="anon-icon">🔒</div>
+    <div>
+      <div class="anon-title">Anonymous Dataset — Names Withheld by Shell</div>
+      <div class="anon-body">The problem statement keeps all identifiers anonymous. <strong>Components (C1–C5)</strong> typically represent fuels like petrol, kerosene, ethanol, naphtha, or bio-based blendstocks. <strong>Blend Properties (BP1–BP10)</strong> typically represent physical and chemical characteristics such as viscosity, density, flash point, octane/cetane number, aromatic content, and combustibility — but the exact mapping is not disclosed.</div>
+    </div>
+  </div>
+
+  <div class="insight-note fade-in">
+    <span class="insight-icon">⚠️</span>
+    <span><strong>BP5 had the highest prediction error (MAE 0.080)</strong> — it was the hardest property for the model to learn, likely due to a more complex or non-linear relationship with the component inputs. <strong>BP8 was the second hardest (MAE 0.055)</strong>. All other properties achieved MAE below 0.045.</span>
+  </div>
+
+  <!-- KPI CARDS -->
+  <div class="kpi-grid">
+    <div class="kpi-card active fade-in" onclick="selectProp(0)">
+      <div class="kpi-label">BP1 · R²</div>
+      <div class="kpi-value" id="kpi-r2-0">0.998</div>
+      <span class="kpi-badge badge-green">Excellent</span>
+    </div>
+    <div class="kpi-card fade-in" onclick="selectProp(1)">
+      <div class="kpi-label">BP2 · R²</div>
+      <div class="kpi-value" id="kpi-r2-1">0.998</div>
+      <span class="kpi-badge badge-green">Excellent</span>
+    </div>
+    <div class="kpi-card fade-in" onclick="selectProp(2)">
+      <div class="kpi-label">BP3 · R²</div>
+      <div class="kpi-value" id="kpi-r2-2">0.998</div>
+      <span class="kpi-badge badge-green">Excellent</span>
+    </div>
+    <div class="kpi-card fade-in" onclick="selectProp(3)">
+      <div class="kpi-label">BP4 · R²</div>
+      <div class="kpi-value" id="kpi-r2-3">0.997</div>
+      <span class="kpi-badge badge-green">Excellent</span>
+    </div>
+    <div class="kpi-card fade-in" onclick="selectProp(4)">
+      <div class="kpi-label">BP5 · R²</div>
+      <div class="kpi-value" id="kpi-r2-4">0.946</div>
+      <span class="kpi-badge badge-yellow">Good</span>
+    </div>
+    <div class="kpi-card fade-in" onclick="selectProp(5)">
+      <div class="kpi-label">BP6 · R²</div>
+      <div class="kpi-value" id="kpi-r2-5">0.998</div>
+      <span class="kpi-badge badge-green">Excellent</span>
+    </div>
+    <div class="kpi-card fade-in" onclick="selectProp(6)">
+      <div class="kpi-label">BP7 · R²</div>
+      <div class="kpi-value" id="kpi-r2-6">0.997</div>
+      <span class="kpi-badge badge-green">Excellent</span>
+    </div>
+    <div class="kpi-card fade-in" onclick="selectProp(7)">
+      <div class="kpi-label">BP8 · R²</div>
+      <div class="kpi-value" id="kpi-r2-7">0.994</div>
+      <span class="kpi-badge badge-green">Excellent</span>
+    </div>
+    <div class="kpi-card fade-in" onclick="selectProp(8)">
+      <div class="kpi-label">BP9 · R²</div>
+      <div class="kpi-value" id="kpi-r2-8">0.997</div>
+      <span class="kpi-badge badge-green">Excellent</span>
+    </div>
+    <div class="kpi-card fade-in" onclick="selectProp(9)">
+      <div class="kpi-label">BP10 · R²</div>
+      <div class="kpi-value" id="kpi-r2-9">0.998</div>
+      <span class="kpi-badge badge-green">Excellent</span>
+    </div>
+  </div>
+
+  <!-- EXPLAINER -->
+  <div class="chart-explainer fade-in">
+    <div class="explainer-icon">📍</div>
+    <div>
+      <div class="explainer-title">How accurate is the model?</div>
+      <div class="explainer-body">The scatter plot below compares what the model <strong>predicted</strong> vs what the value <strong>actually was</strong> for 500 fuel blend samples. Each dot is one sample. If the model were perfect, every dot would sit on the diagonal line. The tighter the dots cluster around that line, the better. Click any BP card above or use the buttons to switch between blend properties.</div>
+    </div>
+  </div>
+
+  <!-- SCATTER + R2 -->
+  <div class="chart-grid mb2">
+    <div class="card fade-in">
+      <div class="card-label">
+        <span>Predicted vs Actual · Scatter</span>
+        <span id="scatter-prop-label">Blend Property 1</span>
+      </div>
+      <div class="card-title">FIT ACCURACY</div>
+      <div class="prop-selector" id="scatter-prop-sel"></div>
+      <div class="chart-wrap tall">
+        <canvas id="scatterChart"></canvas>
+      </div>
+    </div>
+    <div class="card fade-in">
+      <div class="chart-explainer" style="margin-bottom:16px;">
+        <div class="explainer-icon">📊</div>
+        <div>
+          <div class="explainer-title">R² — How well did the model do per property?</div>
+          <div class="explainer-body">R² (R-squared) is a score from 0 to 1. A score of <strong>1.0 means the model predicted every value perfectly</strong>. A score of 0.998 means it got 99.8% of the way there — near perfect. BP5 at 0.946 is the hardest property for the model to predict.</div>
+        </div>
+      </div>
+      <div class="card-label">R² Score by Property</div>
+      <div class="card-title">MODEL PERFORMANCE</div>
+      <div class="chart-wrap tall">
+        <canvas id="r2Chart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAE + RADAR -->
+  <div class="grid-2 mb32">
+    <div class="card fade-in">
+      <div class="chart-explainer" style="margin-bottom:16px;">
+        <div class="explainer-icon">📏</div>
+        <div>
+          <div class="explainer-title">MAE — How far off were the predictions on average?</div>
+          <div class="explainer-body">MAE (Mean Absolute Error) is the average gap between predicted and actual values. <strong>Lower is better.</strong> Most properties have an MAE around 0.036–0.055, meaning predictions are typically off by less than 0.05 units. BP5 has the highest error at 0.08.</div>
+        </div>
+      </div>
+      <div class="card-label">Mean Absolute Error by Property</div>
+      <div class="card-title">MAE BREAKDOWN</div>
+      <div class="chart-wrap">
+        <canvas id="maeChart"></canvas>
+      </div>
+    </div>
+    <div class="card fade-in">
+      <div class="chart-explainer" style="margin-bottom:16px;">
+        <div class="explainer-icon">🕸️</div>
+        <div>
+          <div class="explainer-title">Radar — Predicted vs Actual for one sample</div>
+          <div class="explainer-body">This web chart shows all 10 blend properties at once for a single fuel blend sample. The <strong>orange shape</strong> is what the model predicted. The <strong>blue dashed shape</strong> is the actual measured value. The closer the two shapes overlap, the better the prediction.</div>
+        </div>
+      </div>
+      <div class="card-label">Prediction vs Actual · All Properties · Sample</div>
+      <div class="card-title">SAMPLE RADAR</div>
+      <div class="chart-wrap">
+        <canvas id="radarChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<script src="js/shared.js"></script>
+<script src="js/overview.js"></script>
+</body>
+</html>

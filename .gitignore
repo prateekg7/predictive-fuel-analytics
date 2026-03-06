@@ -1,0 +1,31 @@
+# System files
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+
+# Environments
+.env
+venv/
+
+# Logs and auxiliary folders
+catboost_info/
+
+# Datasets (Large files)
+train.csv
+test.csv
+
+# Outputs
+# Ignore all CSVs by default to keep repo clean
+*.csv
+*.py
+
+# Explicitly keep these specific files as requested
+!final.csv
+!ans.csv
+!corr_heatmap.py
+!model.py
+
+# Keep shell scripts
+!run_model.sh

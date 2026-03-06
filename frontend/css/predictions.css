@@ -1,0 +1,174 @@
+/* ===== TRY IT YOURSELF PAGE — specific styles ===== */
+
+.tiy-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  align-items: start;
+}
+
+.tiy-inputs { display: flex; flex-direction: column; gap: 0; }
+
+/* ===== FRACTION SLIDERS ===== */
+.fraction-sliders { display: flex; flex-direction: column; gap: 10px; }
+
+.frac-row {
+  display: grid;
+  grid-template-columns: 80px 1fr 64px;
+  gap: 10px;
+  align-items: center;
+}
+
+.frac-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 1px;
+}
+
+.frac-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  border-radius: 2px;
+  outline: none;
+  cursor: pointer;
+  background: var(--border);
+}
+
+.frac-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: var(--accent);
+  cursor: pointer;
+  border: 2px solid var(--bg);
+  box-shadow: 0 0 6px rgba(245,166,35,0.4);
+}
+
+.frac-input {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 11px;
+  padding: 4px 8px;
+  width: 100%;
+  text-align: right;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.frac-input:focus { border-color: var(--accent); }
+
+/* ===== PREDICT BUTTON ===== */
+.predict-btn {
+  width: 100%;
+  padding: 14px;
+  background: var(--accent);
+  border: none;
+  color: var(--bg);
+  font-family: var(--display);
+  font-size: 18px;
+  letter-spacing: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+
+.predict-btn:hover    { background: #ffc147; transform: translateY(-1px); box-shadow: 0 4px 20px rgba(245,166,35,0.3); }
+.predict-btn:active   { transform: translateY(0); }
+.predict-btn:disabled { background: var(--border); color: var(--muted); cursor: not-allowed; transform: none; }
+
+/* ===== RESULTS PLACEHOLDER ===== */
+.results-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  text-align: center;
+  border: 1px dashed var(--border);
+  padding: 40px;
+  background: var(--surface);
+}
+
+.placeholder-icon  { font-size: 48px; margin-bottom: 16px; opacity: 0.3; }
+.placeholder-title {
+  font-family: var(--display);
+  font-size: 24px;
+  letter-spacing: 4px;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+.placeholder-sub {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.6;
+  max-width: 280px;
+}
+
+/* ===== PROPERTY RESULT ITEMS ===== */
+.prop-result-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+  animation: fadeIn 0.3s ease forwards;
+  opacity: 0;
+}
+
+.prop-result-name       { width: 200px; flex-shrink: 0; }
+.prop-result-name .label {
+  font-family: var(--mono);
+  font-size: 9px;
+  color: var(--muted);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.prop-result-name .full-name { font-size: 12px; color: var(--text); margin-top: 2px; }
+
+.prop-result-bar-wrap {
+  flex: 1;
+  height: 6px;
+  background: var(--border);
+  border-radius: 3px;
+  overflow: visible;
+  position: relative;
+}
+
+.prop-result-bar {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.8s cubic-bezier(0.4,0,0.2,1);
+}
+
+/* Zero centre line */
+.prop-result-bar-wrap::after {
+  content: '';
+  position: absolute;
+  top: -3px; bottom: -3px;
+  width: 1px;
+  background: var(--muted);
+  left: 50%;
+  opacity: 0.4;
+}
+
+.prop-result-val {
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 700;
+  width: 70px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.prop-result-unit {
+  font-family: var(--mono);
+  font-size: 9px;
+  color: var(--muted);
+  width: 60px;
+  flex-shrink: 0;
+}
