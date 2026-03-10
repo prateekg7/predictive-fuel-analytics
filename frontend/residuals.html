@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Watt-The-Hack · Residual Analysis</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="css/shared.css">
+  <link rel="stylesheet" href="css/residuals.css">
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="logo">
+    Watt-The-Hack
+    <span>PREDICTIVE FUEL BLEND ANALYTICS · SHELL.AI 2025</span>
+  </div>
+  <nav class="nav-tabs">
+    <a class="nav-tab" href="index.html">Overview</a>
+    <a class="nav-tab" href="predictions.html">Try It Yourself</a>
+    <a class="nav-tab active" href="residuals.html">Residuals</a>
+    <a class="nav-tab" href="model.html">Model</a>
+  </nav>
+  <div class="header-meta">
+    <span><span class="status-dot"></span>MODEL ACTIVE</span>
+    <span>N=500 SAMPLES</span>
+    <span>10 TARGETS</span>
+  </div>
+</header>
+
+<main class="main">
+
+  <div class="section-title">RESIDUAL ANALYSIS</div>
+  <div class="section-sub">A deeper look at where and how the model makes errors</div>
+
+  <div class="chart-explainer fade-in" style="margin-bottom:24px;">
+    <div class="explainer-icon">🔍</div>
+    <div>
+      <div class="explainer-title">What is a residual?</div>
+      <div class="explainer-body">A <strong>residual</strong> is simply the difference between what the model predicted and what the actual value was. For example, if the model predicted 1.20 but the real value was 1.15, the residual is +0.05. Studying residuals tells us whether the model makes random small errors (good) or systematic biased errors (bad). <strong>A good model has residuals scattered randomly around zero</strong> with no pattern.</div>
+    </div>
+  </div>
+
+  <!-- ERROR HISTOGRAM + RESIDUAL PLOT -->
+  <div class="grid-2 mb2">
+    <div class="card fade-in">
+      <div class="chart-explainer" style="margin-bottom:16px;">
+        <div class="explainer-icon">📉</div>
+        <div>
+          <div class="explainer-title">Error histogram — are mistakes small and symmetric?</div>
+          <div class="explainer-body">This bar chart shows how often the model made errors of different sizes. <strong>Green bars = over-predicted, red bars = under-predicted.</strong> Ideally the chart looks like a bell curve centred on zero — meaning most errors are tiny and there's no consistent bias in either direction.</div>
+        </div>
+      </div>
+      <div class="card-label">Residual Distribution · Selected Property</div>
+      <div class="card-title">ERROR HISTOGRAM</div>
+      <div class="prop-selector" id="res-prop-sel"></div>
+      <div class="chart-wrap">
+        <canvas id="residHistChart"></canvas>
+      </div>
+    </div>
+
+    <div class="card fade-in">
+      <div class="chart-explainer" style="margin-bottom:16px;">
+        <div class="explainer-icon">🎯</div>
+        <div>
+          <div class="explainer-title">Residuals vs fitted — does the model struggle at extremes?</div>
+          <div class="explainer-body">Each dot is one sample. The horizontal axis shows the model's predicted value; the vertical axis shows the error. <strong>Dots should scatter randomly around the zero line</strong> with no funnel or curve shape. A funnel shape would mean the model gets worse at extreme values.</div>
+        </div>
+      </div>
+      <div class="card-label">Residuals vs Fitted Values</div>
+      <div class="card-title">RESIDUAL PLOT</div>
+      <div class="chart-wrap">
+        <canvas id="residFittedChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAE BARS -->
+  <div class="card fade-in mb32">
+    <div class="card-label" style="margin-bottom:16px;">Mean Absolute Error — all properties</div>
+    <div class="card-title">MAE PER PROPERTY</div>
+    <div id="mae-bars"></div>
+  </div>
+
+</main>
+
+<script src="js/shared.js"></script>
+<script src="js/residuals.js"></script>
+</body>
+</html>

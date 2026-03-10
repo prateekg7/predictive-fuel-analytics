@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Watt-The-Hack · Model Architecture</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="css/shared.css">
+  <link rel="stylesheet" href="css/model.css">
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="logo">
+    Watt-The-Hack
+    <span>PREDICTIVE FUEL BLEND ANALYTICS · SHELL.AI 2025</span>
+  </div>
+  <nav class="nav-tabs">
+    <a class="nav-tab" href="index.html">Overview</a>
+    <a class="nav-tab" href="predictions.html">Try It Yourself</a>
+    <a class="nav-tab" href="residuals.html">Residuals</a>
+    <a class="nav-tab active" href="model.html">Model</a>
+  </nav>
+  <div class="header-meta">
+    <span><span class="status-dot"></span>MODEL ACTIVE</span>
+    <span>N=500 SAMPLES</span>
+    <span>10 TARGETS</span>
+  </div>
+</header>
+
+<main class="main">
+
+  <div class="section-title">MODEL ARCHITECTURE</div>
+  <div class="section-sub">How the prediction engine was built</div>
+
+  <div class="chart-explainer fade-in" style="margin-bottom:24px;">
+    <div class="explainer-icon">🧠</div>
+    <div>
+      <div class="explainer-title">How does the model work?</div>
+      <div class="explainer-body">Instead of using a single algorithm, this solution uses a <strong>stacking ensemble</strong> — three different AI models (LightGBM, CatBoost, XGBoost) each make their own prediction independently. Then a fourth model (RidgeCV) learns the best way to combine those three predictions into one final answer. This "wisdom of crowds" approach consistently outperforms any single model on its own. Training used <strong>5-fold cross-validation</strong> to prevent overfitting — meaning the data was split 5 ways and each split was used to validate the others.</div>
+    </div>
+  </div>
+
+  <!-- BASE MODELS + FEATURE ENGINEERING -->
+  <div class="grid-2 mb2">
+    <div class="card fade-in">
+      <div class="chart-explainer" style="margin-bottom:16px;">
+        <div class="explainer-icon">⚙️</div>
+        <div>
+          <div class="explainer-title">Three models, each making independent predictions</div>
+          <div class="explainer-body">Each bar shows how much that model contributes to the final answer. All three are gradient boosting algorithms — they build many small decision trees one after another, each one correcting the mistakes of the last.</div>
+        </div>
+      </div>
+      <div class="card-label" style="margin-bottom:16px;">Base Models</div>
+      <div class="model-stack">
+        <div class="model-item">
+          <div class="model-icon" style="color:var(--accent);background:rgba(245,166,35,0.1);border:1px solid rgba(245,166,35,0.2);">LGB</div>
+          <div>
+            <div class="model-name">LightGBM</div>
+            <div class="model-desc">n_estimators=400, lr=0.03, depth=7, subsample=0.9</div>
+          </div>
+          <div class="model-bar-wrap"><div class="model-bar" style="width:88%;background:var(--accent);"></div></div>
+          <span style="font-family:var(--mono);font-size:10px;color:var(--accent)">88%</span>
+        </div>
+        <div class="model-item">
+          <div class="model-icon" style="color:var(--accent2);background:rgba(0,212,255,0.1);border:1px solid rgba(0,212,255,0.2);">CAT</div>
+          <div>
+            <div class="model-name">CatBoost</div>
+            <div class="model-desc">iterations=400, lr=0.03, depth=7, verbose=0</div>
+          </div>
+          <div class="model-bar-wrap"><div class="model-bar" style="width:85%;background:var(--accent2);"></div></div>
+          <span style="font-family:var(--mono);font-size:10px;color:var(--accent2)">85%</span>
+        </div>
+        <div class="model-item">
+          <div class="model-icon" style="color:var(--accent3);background:rgba(74,222,128,0.1);border:1px solid rgba(74,222,128,0.2);">XGB</div>
+          <div>
+            <div class="model-name">XGBoost</div>
+            <div class="model-desc">n_estimators=400, lr=0.03, depth=7, subsample=0.9</div>
+          </div>
+          <div class="model-bar-wrap"><div class="model-bar" style="width:86%;background:var(--accent3);"></div></div>
+          <span style="font-family:var(--mono);font-size:10px;color:var(--accent3)">86%</span>
+        </div>
+        <div class="model-item" style="border-color:rgba(245,166,35,0.3);background:rgba(245,166,35,0.03);">
+          <div class="model-icon" style="color:#fff;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);">RCV</div>
+          <div>
+            <div class="model-name">RidgeCV <span style="color:var(--accent);font-size:9px;margin-left:6px;">META-LEARNER</span></div>
+            <div class="model-desc">alphas=logspace(-2,2,10), cv=5 — combines base predictions</div>
+          </div>
+          <div class="model-bar-wrap"><div class="model-bar" style="width:99%;background:linear-gradient(90deg,var(--accent),var(--accent2));"></div></div>
+          <span style="font-family:var(--mono);font-size:10px;color:var(--text)">99%</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card fade-in">
+      <div class="chart-explainer" style="margin-bottom:16px;">
+        <div class="explainer-icon">🔧</div>
+        <div>
+          <div class="explainer-title">How raw inputs were transformed before training</div>
+          <div class="explainer-body">Raw data rarely goes straight into a model. These 5 steps cleaned, enriched, and normalised the data to help the model learn better patterns.</div>
+        </div>
+      </div>
+      <div class="card-label" style="margin-bottom:16px;">Feature Engineering Pipeline</div>
+      <div class="pipeline-steps">
+        <div class="pipeline-step">
+          <div class="step-num" style="background:rgba(245,166,35,0.15);border-color:rgba(245,166,35,0.3);color:var(--accent);">1</div>
+          <div>
+            <div class="step-name">Raw Inputs</div>
+            <div class="step-desc">5 component fractions + 5×10 component properties = 55 features</div>
+          </div>
+        </div>
+        <div class="pipeline-step">
+          <div class="step-num" style="background:rgba(0,212,255,0.15);border-color:rgba(0,212,255,0.3);color:var(--accent2);">2</div>
+          <div>
+            <div class="step-name">Weighted Averages</div>
+            <div class="step-desc">WA_Property<sub>i</sub> = Σ(fraction<sub>c</sub> × property<sub>c,i</sub>) · 10 engineered features</div>
+          </div>
+        </div>
+        <div class="pipeline-step">
+          <div class="step-num" style="background:rgba(74,222,128,0.15);border-color:rgba(74,222,128,0.3);color:var(--accent3);">3</div>
+          <div>
+            <div class="step-name">Outlier Removal</div>
+            <div class="step-desc">IQR-based (1.5×) per target to clean training distribution</div>
+          </div>
+        </div>
+        <div class="pipeline-step">
+          <div class="step-num" style="background:rgba(255,77,109,0.15);border-color:rgba(255,77,109,0.3);color:var(--danger);">4</div>
+          <div>
+            <div class="step-name">Quantile Transform</div>
+            <div class="step-desc">100-quantile normal output distribution on all features</div>
+          </div>
+        </div>
+        <div class="pipeline-step">
+          <div class="step-num" style="background:rgba(245,166,35,0.1);border-color:var(--border);color:var(--muted);">5</div>
+          <div>
+            <div class="step-name">5-Fold Stacking</div>
+            <div class="step-desc">Out-of-fold predictions feed meta-learner to prevent data leakage</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FINAL R² CHART -->
+  <div class="card fade-in mb32">
+    <div class="chart-explainer" style="margin-bottom:16px;">
+      <div class="explainer-icon">🏆</div>
+      <div>
+        <div class="explainer-title">Final scores after combining all three models</div>
+        <div class="explainer-body">These are the R² scores achieved by the full stacking ensemble on the test set — one score per blend property. The closer to 1.0, the better. 9 out of 10 properties score above 0.99, which is exceptional for a real-world chemistry prediction task.</div>
+      </div>
+    </div>
+    <div class="card-label" style="margin-bottom:16px;">Final R² Scores — Stacked Ensemble</div>
+    <div class="chart-wrap">
+      <canvas id="modelR2Chart"></canvas>
+    </div>
+  </div>
+
+</main>
+
+<script src="js/shared.js"></script>
+<script src="js/model.js"></script>
+</body>
+</html>

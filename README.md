@@ -2,6 +2,7 @@
 
 This repository contains the solution for the Shell.ai Hackathon 2025, focusing on predictive modeling for fuel blending properties.
 
+Website : [Predictive Fuel Blend Analysis](https://predictive-fuel-analytics.vercel.app/)
 ## Project Structure
 
 - model.py: The main script containing the Stacking Regressor model (LightGBM, CatBoost, XGBoost with RidgeCV meta-learner).
